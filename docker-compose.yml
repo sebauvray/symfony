@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  web:
+    image: symfony:latest
+    build: ./docker/container
+    container_name: symfony
+    ports:
+      - "80:8000"
+    volumes:
+      - ./html:/var/www/html
+      - ./log:/var/www/log
+    links:
+      - bdd
+    networks:
+      - symfony
+  bdd:
+    image: mariadb
+    environment: 
+      MYSQL_ROOT_PASSWORD: azerty1234@
+    ports:
+      - "3306:3306"
+    networks:
+      - symfony
+networks:
+  symfony:
+    driver: bridge
+    name: symfony
